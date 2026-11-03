@@ -1,0 +1,13 @@
+=== STARTING TERMINAL ASSESSMENT SIMULATION ===
+Computed Average Score: 88.75
+Status: Academic Standing is Honors.
+Connecting to remote database...
+Database records fetched successfully!
+PROCESSING USER ACCOUNTS (POLYMORPHIC ITERATION)
+Account Profile -> ID: A001 | Name: Jaypee Ramos | Email: Jaypee@ntc.edu.ph | Active: true
+[SYSTEM LOG]: Successfully executed -> Sent notification to Jaypee@ntc.edu.ph
+Admin Profile [Level 5] -> ID: AD99 | Name: Prof. Edward | Email: Edward@ntc.edu.ph
+[SYSTEM LOG]: Successfully executed -> Sent notification to Edward@ntc.edu.ph
+Account Profile -> ID: A002 | Name: Maria Reyes | Email: maria@ntc.edu.ph | Active: false
+Account is deactivated. Skipping notification.
+=== ASSESSMENT SIMULATION COMPLETE ===
