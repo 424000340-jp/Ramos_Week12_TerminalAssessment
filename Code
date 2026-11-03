@@ -1,0 +1,131 @@
+import 'dart:async';
+
+// Reusable mixin to provide logging functionality without introducing multiple inheritance
+mixin Logger {
+  void logAction(String action) {
+    print("[SYSTEM LOG]: Successfully executed -> $action");
+  }
+}
+
+// Abstract base class establishing mandatory attributes and structural contracts for all entities
+abstract class SystemEntity {
+  String id;
+  String name;
+
+  // Constructor initializing basic entity identity properties
+  SystemEntity(this.id, this.name);
+
+  // Abstract method forcing concrete subclasses to implement their own display behavior
+  void displayInfo();
+}
+
+// Concrete class representing a standard account, inheriting from SystemEntity and mixing in Logger
+class Account extends SystemEntity with Logger {
+  String email;
+  bool isActive;
+
+  // Constructor using named parameters and passing core identity to the superclass constructor
+  Account({
+    required String id,
+    required String name,
+    required this.email,
+    this.isActive = true,
+  }) : super(id, name);
+
+  // Encapsulated getter to safely expose active state
+  bool get activeStatus => isActive;
+
+  // Encapsulated setter to modify active state safely
+  set activeStatus(bool status) {
+    isActive = status;
+  }
+
+  // Overridden display method providing formatted standard account details
+  @override
+  void displayInfo() {
+    print("Account Profile -> ID: $id | Name: $name | Email: $email | Active: $isActive");
+  }
+}
+
+// Specialized subclass representing administrative accounts with additional privilege properties
+class AdminAccount extends Account {
+  int securityLevel;
+
+  // Constructor assigning security level while forwarding base user attributes to super constructor
+  AdminAccount({
+    required String id,
+    required String name,
+    required String email,
+    required this.securityLevel,
+    bool isActive = true,
+  }) : super(id: id, name: name, email: email, isActive: isActive);
+
+  // Overridden display method customized to show administrative tier information
+  @override
+  void displayInfo() {
+    print("Admin Profile [Level $securityLevel] -> ID: $id | Name: $name | Email: $email");
+  }
+}
+
+// Utility function calculating average performance score with robust exception handling for empty input
+double simulatePerformanceScore(List<int> scores) {
+  try {
+    if (scores.isEmpty) {
+      throw Exception("Cannot calculate average score for an empty list.");
+    }
+    int total = 0;
+    for (var score in scores) {
+      total += score;
+    }
+    return total / scores.length;
+  } catch (e) {
+    print("[ERROR CAUGHT]: Returning default score 0. Details: $e");
+    return 0.0;
+  }
+}
+
+// Asynchronous simulation of a backend database call using async/await and non-blocking Future delay
+Future<List<Account>> fetchUsersFromDatabase() async {
+  print("Connecting to remote database...");
+  await Future.delayed(Duration(seconds: 2));
+
+  List<Account> databaseRecords = [
+    Account(id: "A001", name: "Jaypee Ramos", email: "Jaypee@ntc.edu.ph", isActive: true),
+    AdminAccount(id: "AD99", name: "Prof. Edward", email: "Edward@ntc.edu.ph", securityLevel: 5, isActive: true),
+    Account(id: "A002", name: "Maria Reyes", email: "maria@ntc.edu.ph", isActive: false),
+  ];
+
+  print("Database records fetched successfully!");
+  return databaseRecords;
+}
+
+void main() async {
+  print("=== STARTING TERMINAL ASSESSMENT SIMULATION ===");
+
+  // Performance score processing and academic standing evaluation
+  List<int> mockScores = [85, 90, 88, 92];
+  double finalAverage = simulatePerformanceScore(mockScores);
+  print("Computed Average Score: ${finalAverage.toStringAsFixed(2)}");
+
+  if (finalAverage > 85) {
+    print("Status: Academic Standing is Honors.");
+  } else {
+    print("Status: Academic Standing is Regular.");
+  }
+
+  // Fetch accounts asynchronously
+  List<Account> users = await fetchUsersFromDatabase();
+
+  print("PROCESSING USER ACCOUNTS (POLYMORPHIC ITERATION)");
+  // Polymorphic collection iteration executing overridden methods dynamically at runtime
+  for (var user in users) {
+    user.displayInfo();
+    if (user.isActive) {
+      user.logAction("Sent notification to ${user.email}");
+    } else {
+      print("Account is deactivated. Skipping notification.");
+    }
+  }
+
+  print("=== ASSESSMENT SIMULATION COMPLETE ===");
+}
